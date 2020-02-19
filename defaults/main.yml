@@ -1,0 +1,3 @@
+set_9panel_infrastructure: LAMP
+set_9panel_apps: 
+    - Example
