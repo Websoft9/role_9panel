@@ -1,3 +1,4 @@
-9panel_set_infrastructure: LAMP
-9panel_set_apps: 
+#变量以数字9开头，应用的时候会报错，故采用w9
+w9panel_set_infrastructure: LAMP
+w9panel_set_apps: 
     - Example
