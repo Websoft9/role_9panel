@@ -22,13 +22,13 @@
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_infrastructure='
-    line: 'var set_infrastructure="{{ 9panel_set_infrastructure }}";'
+    line: 'var set_infrastructure="{{ w9panel_set_infrastructure }}";'
 
 - name: set apps of 9Panel
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_apps='
-    line: 'var set_apps={{ 9panel_set_apps | list }};'
+    line: 'var set_apps={{ w9panel_set_apps | list }};'
 
 - name: Set default site I
   shell: cp -rp /data/apps/9panel/*  /data/wwwroot/www.example.com
