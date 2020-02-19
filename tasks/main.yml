@@ -10,11 +10,27 @@
       owner: "{{http_type.stdout}}"
       group: "{{http_type.stdout}}"
 
+- shell: rm -rf /data/apps/9panel
+
 - name: Download 9panel
   git:
     repo: https://github.com/Websoft9/9panel.git
     dest: /data/apps/9panel
     version: latest
+
+- name: set infrastructure
+  lineinfile:
+    path: /data/apps/9panel/js/websoft9.js
+    regexp: 'var set_infrastructure='
+    line: 'var set_infrastructure="{{ set_9panel_infrastructure }}";'
+
+- name: set infrastructure
+  lineinfile:
+    path: /data/apps/9panel/js/websoft9.js
+    regexp: 'var set_apps='
+    line: 'var set_apps={{ set_9panel_apps | list }};'
+
+  
 
 
 - name: Set default site I
