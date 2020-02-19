@@ -18,7 +18,7 @@
     dest: /data/apps/9panel
     version: latest
 
-- name: set infrastructure of 9Panel
+- name: set infrastructure of 9Panel to {{w9panel_set_infrastructure}}
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_infrastructure='
