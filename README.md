@@ -1,7 +1,7 @@
 Ansible Role: 9panel
 =========
 
-下载9panel，然后根据变量值设置9panel显示内容
+下载 [9panel](https://github.com/websoft9/9panel) ，然后根据变量值设置 9panel 显示内容
 
 Requirements
 ------------
