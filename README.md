@@ -21,10 +21,6 @@ Python2
       become: yes
 ```
 
-
---------------
-
-
 Role Variables
 --------------
 None
@@ -47,11 +43,8 @@ Example Playbook
     - { role: role_common }
 ```
 
-
 License
 -------
 
 BSD
-
-
 
