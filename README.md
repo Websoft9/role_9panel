@@ -7,7 +7,7 @@ Ansible Role: 9panel
 
 ## Requirements
 
-运行本 Role，必须实现理解如下的必要条件：
+运行本 Role，请确认符合如下的必要条件：
 
 | **Items**      | **Details** |
 | ------------------| ------------------|
