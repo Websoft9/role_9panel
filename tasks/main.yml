@@ -23,9 +23,9 @@
       remote_src: yes
 
   - name: Rename directory name
-    shell: if [ ! -d "/data/apps/9panel" ]; then mv *9panel* 9panel; fi 
+    shell: cd /data/apps; if [ ! -d "9panel" ]; then mv *9panel* 9panel; fi 
 
-when: region == '1' or region == 1
+  when: region == '1' or region == 1
 
 
 
