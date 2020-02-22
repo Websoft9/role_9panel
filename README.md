@@ -42,7 +42,6 @@ Ansible Role: 9panel
 | phpmyadmin_webs | [ apache, nginx ] | 字符串 |
 | phpmyadmin_php_version | [ "5.4", "5.5",..., "7.2" ] | 字符串 |
 | phpmyadmin_download_url | 字典，取值 ["old": url,  "new": url ]   | 字典 |
-| Other roles |  与其他 Roles 没有耦合性，语法上可以单独存在 | 字符串 |
 
 建议在 *[role_cloud/var/cloud_download_url.yml](https://github.com/websoft9dev/role_cloud/blob/master/vars/cloud_download_url.yml)* 中修改 `phpmyadmin_download_url`值
 
