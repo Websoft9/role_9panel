@@ -3,9 +3,11 @@ region: '0'
 
 #变量以数字9开头，应用的时候会报错，故采用w9
 
-#File&folder permission: apache | nginx | www-data
+#File&folder permission: apache | nginx. if apache on Ubuntu, the permission should be change to www-data
 
 w9panel_owner: apache
+
+# .zip or .git can used for URL
 w9panel_download_url: https://github.com/Websoft9/9panel.git
 
 w9panel_set_infrastructure: LAMP

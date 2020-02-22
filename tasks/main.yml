@@ -47,6 +47,12 @@
 #Copy 9panel to /data/wwwroot/www.example.com if w9panel_set_apps==Example
 
 - block:
+  - name: Create /data/wwwroot/www.example.com
+    file: 
+        path: /data/wwwroot/www.example.com
+        state: directory
+        mode: 0750
+
   - name: Set www.example.com I - copy 9panel
     shell: cp -rp /data/apps/9panel/*  /data/wwwroot/www.example.com
 
