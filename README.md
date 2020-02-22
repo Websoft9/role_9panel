@@ -69,7 +69,6 @@ w9panel_set_apps:
   
   vars:
     w9panel_webs: 'apache'
-    w9panel_download_url: https://github.com/Websoft9/9panel.git
     w9panel_set_infrastructure: LAMP
     w9panel_set_apps: 
         - Moodle
