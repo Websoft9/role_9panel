@@ -37,15 +37,6 @@ Ansible Role: 9panel
 
 本 Role 主要变量以及使用方法如下：
 
-w9panel_webs: 'apache'
-
-# .zip or .git can used for URL
-w9panel_download_url: https://github.com/Websoft9/9panel.git
-
-w9panel_set_infrastructure: LAMP
-w9panel_set_apps: 
-    - Example
-
 | **Items**      | **Details** | **Format**  | **是否初始化** |
 | ------------------| ------------------|-----|-----|
 | w9panel_webs | [ apache, nginx ] | 字符串 | 是 |
@@ -77,3 +68,6 @@ w9panel_set_apps:
 ```
 
 ## FAQ
+
+#### 变量为什么以“w9panel”开头？
+Ansible 不支持以数字开头的变量
