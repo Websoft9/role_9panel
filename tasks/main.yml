@@ -3,8 +3,8 @@
 
 -name: Remove 9panel if it exist
  shell: |
-    rm -rf /data/apps/9panel
-    rm -rf /data/wwwroot/www.example.com
+   rm -rf /data/apps/9panel
+   rm -rf /data/wwwroot/www.example.com
 
 # Download,unzip,rename 9panel from different region
 
