@@ -5,7 +5,7 @@ region: '0'
 
 #File&folder permission: apache | nginx. if on Ubuntu, the permission should be change to www-data by /tasks/main.yml
 
-w9panel_owner: apache
+w9panel_webs: 'apache'
 
 # .zip or .git can used for URL
 w9panel_download_url: https://github.com/Websoft9/9panel.git
