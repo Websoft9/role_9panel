@@ -37,13 +37,25 @@ Ansible Role: 9panel
 
 本 Role 主要变量以及使用方法如下：
 
-| **Items**      | **Details** | **Format**  |
-| ------------------| ------------------|-----|
-| phpmyadmin_webs | [ apache, nginx ] | 字符串 |
-| phpmyadmin_php_version | [ "5.4", "5.5",..., "7.2" ] | 字符串 |
-| phpmyadmin_download_url | 字典，取值 ["old": url,  "new": url ]   | 字典 |
+w9panel_webs: 'apache'
 
-建议在 *[role_cloud/var/cloud_download_url.yml](https://github.com/websoft9dev/role_cloud/blob/master/vars/cloud_download_url.yml)* 中修改 `phpmyadmin_download_url`值
+# .zip or .git can used for URL
+w9panel_download_url: https://github.com/Websoft9/9panel.git
+
+w9panel_set_infrastructure: LAMP
+w9panel_set_apps: 
+    - Example
+
+| **Items**      | **Details** | **Format**  | **是否初始化** |
+| ------------------| ------------------|-----|-----|
+| w9panel_webs | [ apache, nginx ] | 字符串 | 是 |
+| w9panel_set_infrastructure:  | [ LAMP, LNMP... ] | 字符串 | 是 |
+| w9panel_set_apps:   | [ - WordPress - Discuz ] | 列表 | 是  |
+| w9panel_download_url | [ url ]   | 字符串  | 应用于国内加速 |
+
+注意：
+1. w9panel_download_url 初始化在 *[role_cloud](https://github.com/websoft9dev/role_cloud/blob/master/vars/cloud_download_url.yml)* 中统一修改
+2. w9panel_set_infrastructure,  w9panel_set_apps的值请参考 [9panel](https://github.com/websoft9/9panel) 
 
 ## Example
 
