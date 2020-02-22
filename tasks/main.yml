@@ -13,6 +13,14 @@
   shell: |
     rm -rf /data/apps/9panel
     rm -rf /data/wwwroot/www.example.com
+    
+- name: Create apps directory
+  file: 
+    path: /data/apps
+    state: directory
+    owner: "{{phpmyadmin_owner}}"
+    group: "{{phpmyadmin_owner}}"
+    mode: 0750
 
 # Download,unzip,rename 9panel from different region
 
