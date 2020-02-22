@@ -1,6 +1,10 @@
 ---
 #preparation tasks for 9panel
 
+- set_fact: 
+    w9panel_owner: "www-data"
+  when: ansible_os_family == 'Debian'
+
 - name: Remove 9panel if it exist
   shell: |
     rm -rf /data/apps/9panel
@@ -44,7 +48,7 @@
     line: 'var set_apps={{ w9panel_set_apps | list }};'
 
 
-#Copy 9panel to /data/wwwroot/www.example.com if w9panel_set_apps==Example
+#Copy 9panel to /data/wwwroot/www.example.com if w9panel_set_apps[0]==Example
 
 - block:
   - name: Create /data/wwwroot/www.example.com
@@ -68,7 +72,8 @@
 
   - name: Set www.example.com II - rename index.html
     command: mv /data/wwwroot/www.example.com/example.html /data/wwwroot/www.example.com/index.html
-
+  
+  when: w9panel_set_apps[0] == 'Example'
 
 #System settings for 9panel
 
@@ -78,6 +83,14 @@
       owner: "{{w9panel_owner}}"
       group: "{{w9panel_owner}}"
       recurse: yes
+
+- name: Change apps directory Own
+  file: 
+      path: /data/data/www.example.com
+      owner: "{{w9panel_owner}}"
+      group: "{{w9panel_owner}}"
+      recurse: yes
+  when: w9panel_set_apps[0] == 'Example'
 
 - block:
   - name: Copy 9panel Configuration

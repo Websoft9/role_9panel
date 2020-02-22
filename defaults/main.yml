@@ -3,7 +3,7 @@ region: '0'
 
 #变量以数字9开头，应用的时候会报错，故采用w9
 
-#File&folder permission: apache | nginx. if apache on Ubuntu, the permission should be change to www-data
+#File&folder permission: apache | nginx. if on Ubuntu, the permission should be change to www-data by /tasks/main.yml
 
 w9panel_owner: apache
 
