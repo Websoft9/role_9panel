@@ -2,7 +2,7 @@
 #preparation tasks for 9panel
 
 -name: Remove 9panel if it exist
- shell: 
+ shell: |
     rm -rf /data/apps/9panel
     rm -rf /data/wwwroot/www.example.com
 
