@@ -20,6 +20,11 @@
 # Download,unzip,rename 9panel
 
 - block:
+  - name: Create apps Dir
+    file:
+      path: '/data/apps'
+      state: directory
+
   - name: Download 9panel from {{ w9panel_download_url }}
     unarchive:
       src: "{{ w9panel_download_url }}"
