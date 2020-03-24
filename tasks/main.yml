@@ -22,14 +22,13 @@
 - block:
   - name: Create apps Dir
     file:
-      path: '/data/apps'
+      path: '/data/apps/9panel'
       state: directory
 
   - name: Download 9panel from {{ w9panel_download_url }}
-    unarchive:
-      src: "{{ w9panel_download_url }}"
-      dest: /data/apps
-      remote_src: yes
+    git:
+      repo: "{{ w9panel_download_url }}"
+      dest: /data/apps/9panel
 
   - name: Rename directory name
     shell: cd /data/apps; if [ ! -d "9panel" ]; then mv *9panel* 9panel; fi 
