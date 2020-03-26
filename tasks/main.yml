@@ -73,6 +73,8 @@
   - name: Set www.example.com II - rename index.html
     command: mv /data/wwwroot/www.example.com/example.html /data/wwwroot/www.example.com/index.html
   
+  
+
   when: w9panel_set_apps[0] == 'Example'
 
 #System settings for 9panel
@@ -104,7 +106,20 @@
   - name: Copy 9panel Configuration
     copy: src=9panel-nginx.conf dest=/etc/nginx/extra/9panel.conf
 
+  - name: Config tomcat
+    lineinfile:
+      dest: /usr/local/tomcat/conf/server
+      regexp: "/data/wwwroot"
+      insertafter: '/data/wwwroot'
+      line: '<Context path="" docBase="/data/wwwroot/www.example.com" reloadable="true" />'
+    when: w9panel_webs == "tomcat"
+
+  - name: restart Tomcat
+    service: name=tomcat state=restarted enabled=yes
+    when: w9panel_webs == "tomcat"
+
   - name: restart Nginx
     service: name=nginx state=restarted enabled=yes
 
-  when: w9panel_webs == "nginx"
+  when: w9panel_webs == "nginx" or w9panel_webs == "tomcat"
+
