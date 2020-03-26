@@ -42,7 +42,7 @@ Ansible Role: 9panel
 | **Items**      | **Details** | **Format**  | **是否初始化** |
 | ------------------| ------------------|-----|-----|
 | w9panel_webs | [ apache, nginx ] | 字符串 | 是 |
-| w9panel_webs_extra: | tomcat] | 字符串 | 否 |
+| w9panel_webs_extra: | tomcat | 字符串 | 否 |
 | w9panel_set_infrastructure:  | [ LAMP, LNMP... ] | 字符串 | 是 |
 | w9panel_set_apps:   | [ - WordPress - Discuz ] | 列表 | 是  |
 | w9panel_download_url | [ url ]   | 字符串  | 应用于国内加速 |
