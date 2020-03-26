@@ -110,19 +110,18 @@
   - name: Copy 9panel Configuration
     copy: src=9panel-nginx.conf dest=/etc/nginx/extra/9panel.conf
 
+  - name: restart Nginx
+    service: name=nginx state=restarted enabled=yes
+
+  when: w9panel_webs == "nginx" 
+
+- block:
   - name: Config tomcat
     lineinfile:
       dest: /usr/local/tomcat/conf/server.xml
       insertafter: '/data/wwwroot'
       line: '<Context path="" docBase="/data/wwwroot/www.example.com" reloadable="true" />'
-    when: w9panel_webs == "tomcat"
 
   - name: restart Tomcat
     service: name=tomcat state=restarted enabled=yes
-    when: w9panel_webs == "tomcat"
-
-  - name: restart Nginx
-    service: name=nginx state=restarted enabled=yes
-
-  when: w9panel_webs == "nginx" or w9panel_webs == "tomcat"
-
+  when: w9panel_webs_extra == "tomcat"
