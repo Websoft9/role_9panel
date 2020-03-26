@@ -9,6 +9,10 @@
     w9panel_owner: "{{ w9panel_webs }}"
   when: ansible_os_family == 'RedHat'
 
+- set_fact: 
+    w9panel_owner: nginx
+  when: w9panel_webs == 'tomcat'
+
 - debug:
     msg: owner is {{w9panel_owner}}
 
@@ -108,8 +112,7 @@
 
   - name: Config tomcat
     lineinfile:
-      dest: /usr/local/tomcat/conf/server
-      regexp: "/data/wwwroot"
+      dest: /usr/local/tomcat/conf/server.xml
       insertafter: '/data/wwwroot'
       line: '<Context path="" docBase="/data/wwwroot/www.example.com" reloadable="true" />'
     when: w9panel_webs == "tomcat"
