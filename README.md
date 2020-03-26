@@ -3,6 +3,8 @@ Ansible Role: 9panel
 
 本 Role 用于下载并安装 [9panel](https://github.com/websoft9/9panel) ，然后根据变量值设置 9panel 显示内容。
 
+本 role 实际上在基础环境的基础上安装了两个应用：以别名访问的9panel和www.example.com，因此为了让这两个应用能够正常访问，完成其所需的功能，其相关的配置都必须在这role中完成。
+
 本 Role 可以与 php, java, apache, nginx 等roles组合成 LAMP,LNMP,JAVA 等运行环境项目
 
 ## Requirements
