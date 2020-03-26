@@ -9,10 +9,6 @@
     w9panel_owner: "{{ w9panel_webs }}"
   when: ansible_os_family == 'RedHat'
 
-- set_fact: 
-    w9panel_owner: nginx
-  when: w9panel_webs == 'tomcat'
-
 - debug:
     msg: owner is {{w9panel_owner}}
 
@@ -121,6 +117,9 @@
       dest: /usr/local/tomcat/conf/server.xml
       insertafter: '/data/wwwroot'
       line: '<Context path="" docBase="/data/wwwroot/www.example.com" reloadable="true" />'
+
+  - name: Tomcat example
+    shell: mv /usr/local/tomcat/webapps/examples /data/wwwroot/www.example.com/demo
 
   - name: restart Tomcat
     service: name=tomcat state=restarted enabled=yes
