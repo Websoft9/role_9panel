@@ -98,7 +98,7 @@
     copy: src=9panel.conf dest=/etc/httpd/conf.d/
 
   - name: restart Apache
-    service: name=httpd state=restarted enabled=yes
+    service: name=apache state=restarted enabled=yes
 
   when: w9panel_webs == "apache"
   
