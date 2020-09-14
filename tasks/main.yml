@@ -15,7 +15,7 @@
 - name: Remove 9panel and example folder if exist
   shell: |
     rm -rf /data/apps/9panel
-    rm -rf /data/wwwroot/www.example.com
+    rm -rf /data/wwwroot/example
     
 # Download,unzip,rename 9panel
 
@@ -51,18 +51,18 @@
 #Copy 9panel to /data/wwwroot/www.example.com if w9panel_set_apps[0]==Example
 
 - block:
-  - name: Create /data/wwwroot/www.example.com
+  - name: Create /data/wwwroot/example
     file: 
-        path: /data/wwwroot/www.example.com
+        path: /data/wwwroot/example
         state: directory
         mode: 0750
 
   - name: Set www.example.com I - copy 9panel
-    shell: cp -rp /data/apps/9panel/*  /data/wwwroot/www.example.com
+    shell: cp -rp /data/apps/9panel/*  /data/wwwroot/example
 
   - name: Set www.example.com II - delete unnecessary files
     file:
-      path: "/data/wwwroot/www.example.com/{{ item }}"
+      path: "/data/wwwroot/example/{{ item }}"
       state: absent
     with_items:
       - db.html
@@ -71,7 +71,7 @@
       - tools.html
 
   - name: Set www.example.com II - rename index.html
-    command: mv /data/wwwroot/www.example.com/example.html /data/wwwroot/www.example.com/index.html
+    command: mv /data/wwwroot/example/example.html /data/wwwroot/example/index.html
   
   
 
@@ -116,10 +116,10 @@
     lineinfile:
       dest: /usr/local/tomcat/conf/server.xml
       insertafter: '/data/wwwroot'
-      line: '<Context path="" docBase="/data/wwwroot/www.example.com" reloadable="true" />'
+      line: '<Context path="" docBase="/data/wwwroot/example" reloadable="true" />'
 
   - name: Tomcat example
-    shell: mv /usr/local/tomcat/webapps/examples /data/wwwroot/www.example.com/demo
+    shell: mv /usr/local/tomcat/webapps/examples /data/wwwroot/example/demo
 
   - name: restart Tomcat
     service: name=tomcat state=restarted enabled=yes
