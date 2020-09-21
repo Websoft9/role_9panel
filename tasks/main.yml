@@ -81,14 +81,14 @@
 
 - name: Change /data/apps directory Owner
   file: 
-      path: /data/apps
+      path: /data/apps/9panel
       owner: "{{w9panel_owner}}"
       group: "{{w9panel_owner}}"
       recurse: yes
 
 - name: Change /data/wwwroot directory Owner
   file: 
-      path: /data/wwwroot
+      path: /data/wwwroot/example
       owner: "{{w9panel_owner}}"
       group: "{{w9panel_owner}}"
       recurse: yes
