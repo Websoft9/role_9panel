@@ -115,8 +115,11 @@
   - name: Copy 9panel Configuration
     template: src=9panel-caddy.conf dest=/etc/caddy/Caddyfile
 
-  - name: restart caddy
+  - name: restart Caddy
     service: name=caddy state=restarted enabled=yes
+  
+  - name: Create link
+    shell: ln -sf /data/apps/9panel  /data/wwwroot/{{caddy_appname}}/9panel  
 
   when: w9panel_webs == "caddy"
 
