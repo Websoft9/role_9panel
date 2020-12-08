@@ -1,4 +1,4 @@
-php_runtime_meta:
+9panel_runtime_meta:
   apache:
     vhost_dir: /etc/httpd/conf.d
     vhost_src: vhost.conf
