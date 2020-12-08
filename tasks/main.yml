@@ -71,7 +71,7 @@
   - name: Copy 9Panel alias configuration file
     copy: 
       src:  9panel-{{w9panel_webs}}.conf 
-      dest: "{{w9panel_runtime_meta[w9panel_webs].vhost_dir}}/{{w9panel_runtime_meta[w9panel_webs].vhost_src}}"
+      dest: "{{w9panel_runtime_meta[w9panel_webs].vhost_dir}}/9panel.conf"
 
 - block:
   - name: Config tomcat

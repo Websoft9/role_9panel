@@ -1,10 +1,7 @@
 w9panel_runtime_meta:
   apache:
     vhost_dir: /etc/httpd/conf.d
-    vhost_src: 9panel-apache.conf
   nginx:
     vhost_dir: /etc/nginx/conf.d
-    vhost_src: 9panel-nginx.conf
   caddy:
     vhost_dir: /etc/caddy
-    vhost_src: 9panel-caddy.conf
