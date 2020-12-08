@@ -1,5 +1,4 @@
 ---
-
 - block:
   - name: Remove 9panel if exist
     shell: rm -rf /data/apps/9panel
@@ -63,6 +62,7 @@
       owner: "{{w9panel_webs}}"
       group: "{{w9panel_webs}}"
       recurse: yes
+      mode: '0750'
   with_items:
     - /data/wwwroot/example
     - /data/apps/9panel
@@ -71,7 +71,7 @@
   - name: Copy 9Panel alias configuration file
     copy: 
       src:  9panel-{{w9panel_webs}}.conf 
-      dest: "{{w9panel_runtime_meta[w9panel_webs].vhost_dir/{{w9panel_runtime_meta[w9panel_webs].vhost_src"
+      dest: "{{w9panel_runtime_meta[w9panel_webs].vhost_dir}}/{{w9panel_runtime_meta[w9panel_webs].vhost_src}}"
 
 - block:
   - name: Config tomcat
@@ -89,9 +89,7 @@
 
 - name: Permission settings
   shell: |
-    find /data/wwwroot/ -type d -exec chmod 750 {} \;
     find /data/wwwroot/ -not -type d -exec chmod 640 {} \;
-    find /data/apps/ -type d -exec chmod 750 {} \;
     find /data/apps/ -not -type d -exec chmod 640 {} \;
 
 - name: Restart {{w9panel_webs}} and enable service 
