@@ -95,7 +95,7 @@
 
 - block:
   - name: Copy 9panel Configuration
-    copy: src=9panel.conf dest=/etc/httpd/conf.d/
+    copy: src=9panel-apache.conf dest=/etc/httpd/conf.d/9panel.conf
 
   - name: restart Apache
     service: name=apache state=restarted enabled=yes
