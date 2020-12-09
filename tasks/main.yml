@@ -21,6 +21,9 @@
     regexp: 'var set_infrastructure='
     line: 'var set_infrastructure="{{ w9panel_set_infrastructure }}";'
 
+- debug:
+    msg: apps are {{ w9panel_set_apps | list }}
+
 - name: set apps of 9Panel {{ w9panel_set_apps | list }}
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
@@ -28,12 +31,12 @@
     line: 'var set_apps={{ w9panel_set_apps | list }};'
 
 - name: Get webserver for 9Panel from websoft9.js
-  shell: |
-    cat /data/apps/9panel/js/websoft9.js |grep -A 9 "{{ w9panel_set_infrastructure }}" |grep "httpserver" |awk -F '"' '{print $4}' |tr 'A-Z' 'a-z'
+  shell: | 
+    cat /data/apps/9panel/js/websoft9.js |grep -A 9 {{ w9panel_set_infrastructure }} |grep httpserver |cut -d \" -f 4 |tr 'A-Z' 'a-z'
   register: w9panel_webs
 
 - debug:
-    msg: Web Server is {{w9panel_webs}}
+    msg: Web Server is {{w9panel_webs.stdout}}
 
 - block:
   - name: Set demo application - Copy 9Panel folder to Example folder 
@@ -59,8 +62,8 @@
 - name: Change dir directory Owner
   file: 
       path: "{{item}}"
-      owner: "{{w9panel_webs}}"
-      group: "{{w9panel_webs}}"
+      owner: "{{w9panel_webs.stdout}}"
+      group: "{{w9panel_webs.stdout}}"
       recurse: yes
       mode: '0750'
   with_items:
@@ -70,8 +73,8 @@
 - block:
   - name: Copy 9Panel alias configuration file
     copy: 
-      src:  9panel-{{w9panel_webs}}.conf 
-      dest: "{{w9panel_runtime_meta[w9panel_webs].vhost_dir}}/9panel.conf"
+      src:  9panel-{{w9panel_webs.stdout}}.conf 
+      dest: '{{w9panel_runtime_meta[w9panel_webs.stdout].vhost_dir}}/9panel.conf'
 
 - block:
   - name: Config tomcat
@@ -92,9 +95,9 @@
     find /data/wwwroot/ -not -type d -exec chmod 640 {} \;
     find /data/apps/ -not -type d -exec chmod 640 {} \;
 
-- name: Restart {{w9panel_webs}} and enable service 
+- name: Restart {{w9panel_webs.stdout}} and enable service 
   service: 
-    name: "{{w9panel_webs}}" 
+    name: "{{w9panel_webs.stdout}}" 
     state: restarted 
 
 
