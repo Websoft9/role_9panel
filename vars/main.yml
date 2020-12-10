@@ -1,7 +1,7 @@
 w9panel_runtime_meta:
   apache:
-    vhost_dir: /etc/httpd/conf.d
+    vhost_dir: /etc/httpd/extra
   nginx:
-    vhost_dir: /etc/nginx/conf.d
+    vhost_dir: /etc/nginx/extra
   caddy:
     vhost_dir: /etc/caddy

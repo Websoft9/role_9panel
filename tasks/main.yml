@@ -32,7 +32,7 @@
 
 - name: Get webserver for 9Panel from websoft9.js
   shell: | 
-    cat /data/apps/9panel/js/websoft9.js |grep -A 9 {{ w9panel_set_infrastructure }} |grep httpserver |cut -d '"' -f 4 |tr 'A-Z' 'a-z'
+    cat /data/apps/9panel/js/websoft9.js |grep -A 9 "{{ w9panel_set_infrastructure }}" |grep httpserver |cut -d '"' -f 4 |tr 'A-Z' 'a-z'
   register: w9panel_webs
 
 - debug:
