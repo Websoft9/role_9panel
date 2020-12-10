@@ -22,17 +22,17 @@
     line: 'var set_infrastructure="{{ w9panel_set_infrastructure }}";'
 
 - debug:
-    msg: apps are {{ w9panel_set_apps | list }}
+    msg: apps are {{ w9panel_set_apps | list | to_json }}
 
-- name: set apps of 9Panel {{ w9panel_set_apps | list }}
+- name: set apps of 9Panel {{ w9panel_set_apps | list | to_json }}
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_apps=\["Example"\];'
-    line: 'var set_apps={{ w9panel_set_apps | list }};'
+    line: 'var set_apps={{ w9panel_set_apps | list | to_json }};'
 
 - name: Get webserver for 9Panel from websoft9.js
   shell: | 
-    cat /data/apps/9panel/js/websoft9.js |grep -A 9 {{ w9panel_set_infrastructure }} |grep httpserver |cut -d \" -f 4 |tr 'A-Z' 'a-z'
+    cat /data/apps/9panel/js/websoft9.js |grep -A 9 {{ w9panel_set_infrastructure }} |grep httpserver |cut -d '"' -f 4 |tr 'A-Z' 'a-z'
   register: w9panel_webs
 
 - debug:
