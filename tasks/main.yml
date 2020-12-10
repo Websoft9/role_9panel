@@ -1,7 +1,7 @@
 ---
 - block:
   - name: Remove 9panel if exist
-    shell: rm -rf /data/apps/9panel
+    shell: rm -rf /data/apps/9panel  /data/wwwroot/example
 
   - name: Create apps Dir for 9Panel
     file:
@@ -39,6 +39,11 @@
     msg: Web Server is {{w9panel_webs.stdout}}
 
 - block:
+  - name: Create WebSite directory
+    file: 
+      path: /data/wwwroot/example
+      state: directory
+
   - name: Set demo application - Copy 9Panel folder to Example folder 
     shell: cp -rp /data/apps/9panel/*  /data/wwwroot/example
 
