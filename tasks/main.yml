@@ -1,26 +1,9 @@
 ---
-#preparation tasks for 9panel
-
-- set_fact: 
-    w9panel_owner: "www-data"
-  when: ansible_os_family == 'Debian'
-
-- set_fact: 
-    w9panel_owner: "{{ w9panel_webs }}"
-  when: ansible_os_family == 'RedHat'
-
-- debug:
-    msg: owner is {{w9panel_owner}}
-
-- name: Remove 9panel and example folder if exist
-  shell: |
-    rm -rf /data/apps/9panel
-    rm -rf /data/wwwroot/example
-    
-# Download,unzip,rename 9panel
-
 - block:
-  - name: Create apps Dir
+  - name: Remove 9panel if exist
+    shell: rm -rf /data/apps/9panel  /data/wwwroot/example
+
+  - name: Create apps Dir for 9Panel
     file:
       path: '/data/apps/9panel'
       state: directory
@@ -30,37 +13,41 @@
       repo: "{{ w9panel_download_url }}"
       dest: /data/apps/9panel
 
-  - name: Rename directory name
-    shell: cd /data/apps; if [ ! -d "9panel" ]; then mv *9panel* 9panel; fi 
-
 # Set 9panel display of infrastructure and apps
 
-- name: set infrastructure of 9Panel to {{w9panel_set_infrastructure}}
+- name: Set infrastructure of 9Panel to {{w9panel_set_infrastructure}}
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_infrastructure='
     line: 'var set_infrastructure="{{ w9panel_set_infrastructure }}";'
 
-- name: set apps of 9Panel {{ w9panel_set_apps | list }}
+- debug:
+    msg: apps are {{ w9panel_set_apps | list | to_json }}
+
+- name: set apps of 9Panel {{ w9panel_set_apps | list | to_json }}
   lineinfile:
     path: /data/apps/9panel/js/websoft9.js
     regexp: 'var set_apps=\["Example"\];'
-    line: 'var set_apps={{ w9panel_set_apps | list }};'
+    line: 'var set_apps={{ w9panel_set_apps | list | to_json }};'
 
+- name: Get webserver for 9Panel from websoft9.js
+  shell: | 
+    cat /data/apps/9panel/js/websoft9.js |grep -A 9 '"name":"{{ w9panel_set_infrastructure }}"' |grep httpserver |cut -d '"' -f 4 |tr 'A-Z' 'a-z'
+  register: w9panel_webs
 
-#Copy 9panel to /data/wwwroot/www.example.com if w9panel_set_apps[0]==Example
+- debug:
+    msg: Web Server is {{w9panel_webs.stdout}}
 
 - block:
-  - name: Create /data/wwwroot/example
+  - name: Create WebSite directory
     file: 
-        path: /data/wwwroot/example
-        state: directory
-        mode: 0750
+      path: /data/wwwroot/example
+      state: directory
 
-  - name: Set www.example.com I - copy 9panel
+  - name: Set demo application - Copy 9Panel folder to Example folder 
     shell: cp -rp /data/apps/9panel/*  /data/wwwroot/example
 
-  - name: Set www.example.com II - delete unnecessary files
+  - name: Set demo application - Delete unnecessary files
     file:
       path: "/data/wwwroot/example/{{ item }}"
       state: absent
@@ -70,46 +57,29 @@
       - index.html
       - tools.html
 
-  - name: Set www.example.com II - rename index.html
+  - name: Set demo application - rename index.html
     command: mv /data/wwwroot/example/example.html /data/wwwroot/example/index.html
-  
-  
 
   when: w9panel_set_apps[0] == 'Example'
 
 #System settings for 9panel
 
-- name: Change /data/apps directory Owner
+- name: Change dir directory Owner
   file: 
-      path: /data/apps/9panel
-      owner: "{{w9panel_owner}}"
-      group: "{{w9panel_owner}}"
+      path: "{{item}}"
+      owner: "{{w9panel_webs.stdout}}"
+      group: "{{w9panel_webs.stdout}}"
       recurse: yes
-
-- name: Change /data/wwwroot directory Owner
-  file: 
-      path: /data/wwwroot/example
-      owner: "{{w9panel_owner}}"
-      group: "{{w9panel_owner}}"
-      recurse: yes
+      mode: '0750'
+  with_items:
+    - /data/wwwroot/example
+    - /data/apps/9panel
 
 - block:
-  - name: Copy 9panel Configuration
-    copy: src=9panel-apache.conf dest=/etc/httpd/conf.d/9panel.conf
-
-  - name: restart Apache
-    service: name=apache state=restarted enabled=yes
-
-  when: w9panel_webs == "apache"
-  
-- block: 
-  - name: Copy 9panel Configuration
-    copy: src=9panel-nginx.conf dest=/etc/nginx/extra/9panel.conf
-
-  - name: restart Nginx
-    service: name=nginx state=restarted enabled=yes
-
-  when: w9panel_webs == "nginx" 
+  - name: Copy 9Panel alias configuration file
+    copy: 
+      src:  9panel-{{w9panel_webs.stdout}}.conf 
+      dest: '{{w9panel_runtime_meta[w9panel_webs.stdout].vhost_dir}}/9panel.conf'
 
 - block:
   - name: Config tomcat
@@ -124,3 +94,12 @@
   - name: restart Tomcat
     service: name=tomcat state=restarted enabled=yes
   when: w9panel_webs_extra == "tomcat"
+
+- name: Permission settings
+  shell: |
+    find /data/wwwroot/ -not -type d -exec chmod 640 {} \;
+    find /data/apps/ -not -type d -exec chmod 640 {} \;
+- name: Restart {{w9panel_webs.stdout}} and enable service 
+  service: 
+    name: "{{w9panel_webs.stdout}}" 
+    state: restarted 
