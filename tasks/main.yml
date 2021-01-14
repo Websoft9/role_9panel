@@ -97,8 +97,8 @@
 
 - name: Permission settings
   shell: |
-    find /data/wwwroot/ -not -type d -exec chmod 640 {} \;
-    find /data/apps/ -not -type d -exec chmod 640 {} \;
+    find /data/wwwroot/example/ -not -type d -exec chmod 640 {} \;
+    find /data/apps/9panel/ -not -type d -exec chmod 640 {} \;
 - name: Restart {{w9panel_webs.stdout}} and enable service 
   service: 
     name: "{{w9panel_webs.stdout}}" 
